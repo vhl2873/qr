@@ -1,30 +1,45 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:jobqr/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('QR workspace renders two navigation flows', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('QR Generator'), findsOneWidget);
+    expect(find.text('Tao QR'), findsWidgets);
+    expect(find.text('Gan vao anh'), findsOneWidget);
+    expect(find.text('Ma QR'), findsOneWidget);
+    expect(find.byKey(const ValueKey('qr-preview')), findsNothing);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    await tester.tap(find.text('Gan vao anh'));
+    await tester.pumpAndSettle();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('QR Cover Editor'), findsOneWidget);
+    expect(find.text('Preview thanh pham'), findsOneWidget);
+    expect(find.text('Chon anh bia'), findsOneWidget);
+    expect(find.byKey(const ValueKey('qr-size-slider')), findsOneWidget);
+  });
+
+  testWidgets('QR overlay appears after entering data', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const MyApp());
+
+    await tester.enterText(
+      find.byType(TextField),
+      'https://example.com/job/123',
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const ValueKey('qr-preview')), findsOneWidget);
+
+    await tester.tap(find.text('Gan vao anh'));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const ValueKey('qr-overlay')), findsOneWidget);
+    expect(find.text('QR tu man Tao QR se duoc dung tai day.'), findsOneWidget);
   });
 }

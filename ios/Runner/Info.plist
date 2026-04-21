@@ -45,9 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-    <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>Ứng dụng cần quyền để lưu ảnh QR vào thư viện</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>Ứng dụng cần truy cập thư viện ảnh</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app saves generated QR artwork to your photo library.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app lets you pick a cover image from your photo library.</string>
 </dict>
 </plist>
